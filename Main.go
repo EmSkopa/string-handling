@@ -17,10 +17,10 @@ import (
 
 // StoryStats struct object
 type StoryStats struct {
-	ShortestWord string
-	LongestWord string
+	ShortestWord      string
+	LongestWord       string
 	AverageWordLength float64
-	AverageWords []string
+	AverageWords      []string
 }
 
 // testValidity is function to check validity of the input format string
@@ -32,13 +32,13 @@ type StoryStats struct {
 func testValidity(Input string) (validity bool, parts []string) {
 	parts = strings.Split(Input, "-")
 
-	if len(parts) < 2 && len(parts) % 2 == 0 {
+	if len(parts) < 2 && len(parts)%2 != 0 {
 		return false, parts
 	}
 
 	for i := 0; i < len(parts); i++ {
 		_, err := strconv.ParseUint(parts[i], 10, 32)
-		if (i % 2 == 0 && err != nil) ||  (i % 2 != 0 && err == nil) {
+		if (i%2 == 0 && err != nil) || (i%2 != 0 && err == nil) {
 			return false, parts
 		}
 	}
@@ -59,7 +59,7 @@ func averageNumber(Input string) (averageNum float64, err error) {
 
 	average := 0
 	for i := 0; i < len(parts); i++ {
-		if i % 2 == 0 {
+		if i%2 == 0 {
 			num, _ := strconv.Atoi(parts[i])
 			average += num
 		}
@@ -82,7 +82,7 @@ func wholeStory(Input string) (story string, err error) {
 	}
 
 	for i := 0; i < len(parts); i++ {
-		if i % 2 != 0 {
+		if i%2 != 0 {
 			if i > 1 {
 				story += " "
 			}
@@ -106,7 +106,7 @@ func storyStats(Input string) (story StoryStats, err error) {
 	}
 	average := 0
 	for i := 0; i < len(parts); i++ {
-		if i % 2 != 0 {
+		if i%2 != 0 {
 			if i == 1 {
 				story.LongestWord = parts[i]
 				story.ShortestWord = parts[i]
@@ -152,7 +152,7 @@ func generateRandomCorrectString() (result string) {
 		if i > 0 {
 			result += "-"
 		}
-		result += strconv.Itoa(randomNumber(rand.Intn(10) + 1)) + "-" + randomString(rand.Intn(10) + 1)
+		result += strconv.Itoa(randomNumber(rand.Intn(10)+1)) + "-" + randomString(rand.Intn(10)+1)
 	}
 	return result
 }
@@ -186,10 +186,18 @@ func randomString(n int) string {
 // @return int
 // Task 2
 func randomNumber(n int) int {
-	return int(math.Pow10(n)) + rand.Intn(int(math.Pow10(n+1)) - int(math.Pow10(n)) - 1)
+	return int(math.Pow10(n)) + rand.Intn(int(math.Pow10(n+1))-int(math.Pow10(n))-1)
 }
 
 func main() {
 	fmt.Println(generateRandomString(false))
 	fmt.Println(generateRandomString(true))
+
+	if result, err := storyStats(generateRandomString(false)); err == nil {
+		fmt.Println(result)
+	}
+
+	if result, err := storyStats(generateRandomString(true)); err == nil {
+		fmt.Println(result)
+	}
 }
