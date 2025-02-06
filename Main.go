@@ -41,12 +41,21 @@ func exampleThree() {
 }
 
 func exampleFour() {
-	var fireDragon FireDragon
+	fireDragon := FireDragon{
+		Name:   "Dragon mother",
+		Height: 10,
+	}
 	var egg = fireDragon.Lay()
 	var childDragon = egg.Hatch()
 	var childDragonTwo = egg.Hatch()
-	fmt.Println(childDragon)
+	if childDragon != nil {
+		if babyDragon, ok := childDragon.(*FireDragon); ok {
+			fmt.Println("Baby dragon's name:", babyDragon.Name)
+			fmt.Println("Baby dragon's height:", babyDragon.Height)
+		}
+	}
 	fmt.Println(childDragonTwo)
+	fmt.Println(fireDragon)
 }
 
 func main() {

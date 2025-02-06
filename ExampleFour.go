@@ -26,12 +26,17 @@ func (egg *ReptileEgg) Hatch() Reptile {
 }
 
 type FireDragon struct {
+	Name   string
+	Height int
 }
 
 func (fireDragon *FireDragon) Lay() ReptileEgg {
 	var egg = ReptileEgg{
 		CreateReptile: func() Reptile {
-			return fireDragon
+			return &FireDragon{
+				Name:   "Dragon baby",
+				Height: 1,
+			}
 		},
 	}
 	return egg
